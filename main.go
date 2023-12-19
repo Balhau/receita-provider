@@ -3,15 +3,21 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
 
+	"balhau.net/receita-provider/internal/provider"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+)
+
+var (
+	version = "dev"
 )
 
 func main() {
 
 	var debug bool
 
-	flag.BoolVar(&debug, "debug", "set to true if debug mode")
+	flag.BoolVar(&debug, "debug", false, "set to true if debug mode")
 	flag.Parse()
 
 	// Initialize the structure to setup the provider service

@@ -39,8 +39,8 @@ func (p *ReceitaProvider) Metadata(ctx context.Context, req provider.MetadataReq
 func (p *ReceitaProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"folder": schema.StringAttribute{
-				MarkdownDescription: "Folder under which the receitas will be stored",
+			"endpoint": schema.StringAttribute{
+				MarkdownDescription: "Endpoint under which the receitas will be called upon",
 				Optional:            false,
 			},
 		},
@@ -66,7 +66,7 @@ func (p *ReceitaProvider) Configure(ctx context.Context, req provider.ConfigureR
 // Set the resources enabled by this provider
 
 func (p *ReceitaProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return nil
+	return []func() resource.Resource{}
 }
 
 func (p *ReceitaProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
@@ -74,6 +74,10 @@ func (p *ReceitaProvider) DataSources(ctx context.Context) []func() datasource.D
 }
 
 // This is the builder method for our ReceitaProvider instances
-func New() func() provider.Provider {
-	return nil
+func New(version string) func() provider.Provider {
+	return func() provider.Provider {
+		return &ReceitaProvider{
+			version: version,
+		}
+	}
 }

@@ -1,4 +1,4 @@
-# Receipt terraform example provider
+# Receita terraform example provider
 
 ## What?
 
@@ -22,12 +22,5 @@ the output of this command was the creation of the `go.mod` file.
 Since the goal here is to build a terraform provider we must add the terraform libraries needed for that. This can be achieved with 
 
 ```sh
-go get github.com/hashicorp/terraform-plugin-framework
+go get
 ```
-
-After this command we ended with the following line 
-```sh
-require github.com/hashicorp/terraform-plugin-framework v1.4.2 // indirect
-```
-
-added to our `go.mod` file. A `go.sum`, containing the checksum of the download dependencies, is also created
