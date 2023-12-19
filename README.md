@@ -76,7 +76,7 @@ For this we just
 terraform plan -out tf_plan.state
 ```
 
-The end result should be a `json` file containing the terraform state to be executed.
+The end result should be a `binary` file containing the terraform state to be executed.
 To finally apply the terraform changes we need to run
 
 ```sh
