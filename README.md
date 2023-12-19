@@ -24,3 +24,15 @@ Since the goal here is to build a terraform provider we must add the terraform l
 ```sh
 go get
 ```
+
+To be able to use this terraform plugin you'll need to build this go project with
+
+```sh
+go build
+```
+
+And then move the binary into your terraform plugin directory, something like this
+
+```
+~/.terraform.d/plugins/terraform.local/local/receita/1.0.0/darwin_amd64/receita-provider
+```
