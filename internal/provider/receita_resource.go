@@ -22,7 +22,7 @@ var _ resource.Resource = &ReceitaResource{}
 var _ resource.ResourceWithImportState = &ReceitaResource{}
 
 type ReceitaResource struct {
-	client *http.Client
+	providerData *ReceitaProviderData
 }
 
 func NewReceitaResource() resource.Resource {
@@ -78,18 +78,18 @@ func (r *ReceitaResource) Configure(ctx context.Context, req resource.ConfigureR
 
 	//Extract the http client from the provider data definition
 	//This also casts the object, it will return fals in the ok field if the types are not castable
-	client, ok := req.ProviderData.(*http.Client)
+	providerData, ok := req.ProviderData.(*ReceitaProviderData)
 
 	// if we can't fetch the client from the provider just notifies the terraform diagnostics and return silently
 	if !ok {
 		resp.Diagnostics.AddError(
 			"Unexpected Resource Configure Type",
-			fmt.Sprintf("Expected *http.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+			fmt.Sprintf("Expected provider.ReceitaProviderData, got: %T. Please report this issue to the provider developers.", req.ProviderData),
 		)
 		return
 	}
 
-	r.client = client
+	r.providerData = providerData
 }
 
 func (r *ReceitaResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
@@ -102,10 +102,25 @@ func (r *ReceitaResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	// Do specific stuff
-
 	// Here just generates a random uuid
 	data.Id = basetypes.NewStringValue(uuid.Must(uuid.NewRandom()).String())
+
+	// Do specific stuff
+	endpoint := r.providerData.Model.Endpoint
+
+	fmt.Println("Before the call")
+
+	hResp, err := http.Get(endpoint.ValueString() + "/create")
+
+	fmt.Println("After the call")
+
+	if err != nil {
+		return
+	}
+
+	if hResp.Close == false {
+		fmt.Println("http closed")
+	}
 
 	//log the creation of the resource in the terraform logging system
 	tflog.Trace(ctx, "created a receita resource")

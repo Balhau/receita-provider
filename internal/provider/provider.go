@@ -22,6 +22,11 @@ type ReceitaProviderModel struct {
 	Endpoint types.String `tfsdk:"endpoint"`
 }
 
+type ReceitaProviderData struct {
+	Model  ReceitaProviderModel
+	Client *http.Client
+}
+
 // Now we need to define the contract defined by provider.Provider from terraform
 
 // Set the metadata callback for the provider
@@ -58,9 +63,12 @@ func (p *ReceitaProvider) Configure(ctx context.Context, req provider.ConfigureR
 		return
 	}
 
-	client := http.DefaultClient
-	resp.DataSourceData = client
-	resp.ResourceData = client
+	providerData := ReceitaProviderData{
+		Model:  data,
+		Client: http.DefaultClient,
+	}
+	resp.DataSourceData = &providerData
+	resp.ResourceData = &providerData
 }
 
 // Set the resources enabled by this provider

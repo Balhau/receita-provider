@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "receita" {
-  endpoint = "localhost:9999"
+  endpoint = "http://localhost:9999"
 }
 
 resource "receita_receita" "receita_one" {
