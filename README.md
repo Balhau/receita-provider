@@ -57,7 +57,7 @@ python3 -m http.server 9999
 
 ```
 
-This will open a http server in the port `9000`. This will not implement the endpoints defined in the code but will be enough to log the calls and this will be enough for us to validate the provider lifecycle.
+This will open a http server in the port `9999`. This will not implement the endpoints defined in the code but will be enough to log the calls and this will be enough for us to validate the provider lifecycle.
 
 ### Running the provider
 
