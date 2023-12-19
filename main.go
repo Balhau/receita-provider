@@ -1,14 +1,32 @@
 package main
 
-import(
-  "github.com/hashicorp/terraform/plugin"
-  "github.com/hashicorp/terraform/provider"
+import (
+	"context"
+	"flag"
+
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 )
 
-func main(){
-  plugin.Serve(&plugin.ServeOpts{
-    ProviderFunc: func() terraform.ResourceProvider {
-      return Provider()
-    }
-  })
+func main() {
+
+	var debug bool
+
+	flag.BoolVar(&debug, "debug", "set to true if debug mode")
+	flag.Parse()
+
+	// Initialize the structure to setup the provider service
+	// create the folder in .terraform.d/plugins/terraform.local/local
+	// otherwise you'll need to publish this provider to be able to use it
+	opts := providerserver.ServeOpts{
+		Address: "terraform.local/balhau/receita",
+		Debug:   debug,
+	}
+
+	err := providerserver.Serve(context.Background(), provider.New(version), opts)
+
+	// If the creation of service give us an error just print it.
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
 }
