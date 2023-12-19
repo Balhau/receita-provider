@@ -3,3 +3,4 @@
 *.tfstate
 receita-provider
 backend
+*.tfstate.backup
