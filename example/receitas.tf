@@ -11,6 +11,6 @@ provider "receitas" {
 }
 
 resource "receita_receita" "receita_one" {
-  name="Bola de carne"
-  author="Maria Bacalhau"
+  name   = "Bola de carne"
+  author = "Maria Bacalhau"
 }
