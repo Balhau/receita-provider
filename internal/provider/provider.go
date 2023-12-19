@@ -19,7 +19,7 @@ type ReceitaProvider struct {
 
 // Datamodel for our provider
 type ReceitaProviderModel struct {
-	Folder types.String `tfsdk:"folder"`
+	Endpoint types.String `tfsdk:"endpoint"`
 }
 
 // Now we need to define the contract defined by provider.Provider from terraform
@@ -41,7 +41,7 @@ func (p *ReceitaProvider) Schema(ctx context.Context, req provider.SchemaRequest
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
 				MarkdownDescription: "Endpoint under which the receitas will be called upon",
-				Optional:            false,
+				Required:            true,
 			},
 		},
 	}
@@ -66,11 +66,13 @@ func (p *ReceitaProvider) Configure(ctx context.Context, req provider.ConfigureR
 // Set the resources enabled by this provider
 
 func (p *ReceitaProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewReceitaResource,
+	}
 }
 
 func (p *ReceitaProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return nil
+	return []func() datasource.DataSource{}
 }
 
 // This is the builder method for our ReceitaProvider instances

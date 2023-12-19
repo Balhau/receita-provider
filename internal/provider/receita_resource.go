@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
@@ -50,11 +51,11 @@ func (r *ReceitaResource) Schema(ctx context.Context, req resource.SchemaRequest
 		Attributes: map[string]schema.Attribute{
 			"name": schema.StringAttribute{
 				MarkdownDescription: "Name of the receita",
-				Optional:            false,
+				Required:            true,
 			},
 			"author": schema.StringAttribute{
 				MarkdownDescription: "Name of the author",
-				Optional:            false,
+				Required:            true,
 			},
 			"id": schema.StringAttribute{
 				Computed:            true,
@@ -101,6 +102,8 @@ func (r *ReceitaResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
+	// Do specific stuff
+
 	// Here just generates a random uuid
 	data.Id = basetypes.NewStringValue(uuid.Must(uuid.NewRandom()).String())
 
@@ -108,4 +111,57 @@ func (r *ReceitaResource) Create(ctx context.Context, req resource.CreateRequest
 	tflog.Trace(ctx, "created a receita resource")
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *ReceitaResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data ReceitaResourceModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Do read specific operation
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+
+}
+
+func (r *ReceitaResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data ReceitaResourceModel
+
+	//Read terraform state into model
+	//Append is a varadic method and Get returns an array we need to use ... to transform an array into varadic representation
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	// Return in case of error
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	//Do specific update stuff
+
+	//Finally update the terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *ReceitaResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data ReceitaResourceModel
+
+	// Load tf state into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Do specific delete logic
+
+}
+
+func (r *ReceitaResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	resource.ImportStatePassthroughID(ctx, path.Root("id"), req, resp)
 }

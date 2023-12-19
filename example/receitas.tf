@@ -1,12 +1,12 @@
 terraform {
   required_providers {
     receita = {
-      source = "terraform.local/local/receita"
+      source = "terraform.local/balhau/receita"
     }
   }
 }
 
-provider "receitas" {
+provider "receita" {
   endpoint = "localhost:9999"
 }
 
