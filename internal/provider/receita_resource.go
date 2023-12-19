@@ -107,20 +107,11 @@ func (r *ReceitaResource) Create(ctx context.Context, req resource.CreateRequest
 
 	// Do specific stuff
 	endpoint := r.providerData.Model.Endpoint
+	hResp, _ := http.Get(endpoint.ValueString() + "/create")
 
-	fmt.Println("Before the call")
+	fmt.Println(hResp.Body)
 
-	hResp, err := http.Get(endpoint.ValueString() + "/create")
-
-	fmt.Println("After the call")
-
-	if err != nil {
-		return
-	}
-
-	if hResp.Close == false {
-		fmt.Println("http closed")
-	}
+	//End specific stuff
 
 	//log the creation of the resource in the terraform logging system
 	tflog.Trace(ctx, "created a receita resource")
@@ -157,7 +148,13 @@ func (r *ReceitaResource) Update(ctx context.Context, req resource.UpdateRequest
 		return
 	}
 
-	//Do specific update stuff
+	// Do specific stuff
+	endpoint := r.providerData.Model.Endpoint
+	hResp, _ := http.Get(endpoint.ValueString() + "/update")
+
+	fmt.Println(hResp.Body)
+
+	//End specific stuff
 
 	//Finally update the terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -168,6 +165,14 @@ func (r *ReceitaResource) Delete(ctx context.Context, req resource.DeleteRequest
 
 	// Load tf state into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	// Do specific stuff
+	endpoint := r.providerData.Model.Endpoint
+	hResp, _ := http.Get(endpoint.ValueString() + "/delete")
+
+	fmt.Println(hResp.Body)
+
+	//End specific stuff
 
 	if resp.Diagnostics.HasError() {
 		return
