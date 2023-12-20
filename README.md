@@ -49,87 +49,12 @@ provider "receita" {
 }
 ```
 
+### Running this
 
-For that we can use http module from python3 and run
+Managing terraform providers involves a bit of typing in the command line. To avoid typing to much we have here a `Makefile` with most of the command line instructions we need.
 
-```sh
-python3 -m http.server 9999
-
-```
-
-This will open a http server in the port `9999`. This will not implement the endpoints defined in the code but will be enough to log the calls and this will be enough for us to validate the provider lifecycle.
-
-### Running the provider
-
-To run this provider we should jump into `example` directory and initialize `terraform` in the folder. For this it is enough to run 
-
+To figure out how to use this makefile just type
 
 ```sh
-terraform init
-```
-
-If all steps run properly unti this moment we should end up with a success command. Next step is the `plan`
-
-For this we just 
-
-```sh
-terraform plan -out tf_plan.state
-```
-
-The end result should be a `binary` file containing the terraform state to be executed.
-To finally apply the terraform changes we need to run
-
-```sh
-terraform apply tf_plan.state
-```
-
-If all went good you should have something like this
-
-```
-receita_receita.receita_one: Creating...
-receita_receita.receita_one: Creation complete after 0s [id=500c3203-7210-45e0-8599-6a4048b78179]
-
-Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
-```
-
-as output.
-
-At the same time the mock server that we just started should log a call to an endpoint
-
-```
-code 404, message File not found
-"GET /create HTTP/1.1" 404 -
-```
-
-You should have also a `terraform.tfstate` file. Which is a human readable `json` representation of the current terraform state.
-Should look something like
-
-```json
-{
-  "version": 4,
-  "terraform_version": "1.4.6",
-  "serial": 1,
-  "lineage": "bef05e13-6bcf-44f0-a62e-131ade285463",
-  "outputs": {},
-  "resources": [
-    {
-      "mode": "managed",
-      "type": "receita_receita",
-      "name": "receita_one",
-      "provider": "provider[\"terraform.local/balhau/receita\"]",
-      "instances": [
-        {
-          "schema_version": 0,
-          "attributes": {
-            "author": "Maria Bacalhau",
-            "id": "500c3203-7210-45e0-8599-6a4048b78179",
-            "name": "Bola de carne"
-          },
-          "sensitive_attributes": []
-        }
-      ]
-    }
-  ],
-  "check_results": null
-}
+make help
 ```
