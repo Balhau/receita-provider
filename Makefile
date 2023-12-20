@@ -1,13 +1,4 @@
 
-## ----------------------------------------------------------------------
-## This is a help comment. The purpose of this Makefile is to demonstrate
-## a simple help mechanism that uses comments defined alongside the rules
-## they describe without the need of additional help files or echoing of
-## descriptions. Help comments are displayed in the order defined within
-## the Makefile.
-## ----------------------------------------------------------------------
-
-
 provider_directory=~/.terraform.d/plugins/terraform.local/balhau/receita/1.0.0/darwin_amd64/
 
 .PHONY: help
