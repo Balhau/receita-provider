@@ -6,10 +6,18 @@ clean-bin:
 
 .PHONY: clean-terraform-state
 clean-terraform-state:
-	rm -rf example/.terraform terraform.tfstate.backup .terraform.lock.hcl terraform.tfstate
+	rm -rf example/.terraform example/terraform.tfstate.backup example/.terraform.lock.hcl example/terraform.tfstate
 
 .PHONY: clean
 clean: clean-bin clean-terraform-state
+
+.PHONY: terraform-init
+terraform-init: clean-terraform-state
+	cd example; terraform init
+
+.PHONY: terraform-apply
+terraform-apply:
+	cd example; terraform apply
 
 .PHONY: build
 build:
@@ -21,4 +29,8 @@ build:
 install-provider:
 	mkdir -p $(provider_directory)
 	cp bin/terraform-provider-receita $(provider_directory)
+
+.PHONY: run-backend
+run-backend: build
+	bin/backend
 
