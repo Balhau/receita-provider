@@ -1,5 +1,6 @@
 
-provider_directory=~/.terraform.d/plugins/terraform.local/balhau/receita/1.0.0/darwin_amd64/
+arch?=darwin_amd64
+provider_directory=~/.terraform.d/plugins/terraform.local/balhau/receita/1.0.0/$(arch)/
 
 .PHONY: help
 help:	## Show this help.

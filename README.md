@@ -69,3 +69,11 @@ install-provider:        Install provider in the terraform plugin directory
 run-backend:             Start the backend web server
 ```
 
+
+#### Note
+
+By default the step `make install-provider` will install the provider assuming a darwin (macos). If you want this to be installed in a different environment you would need to override the parameter `arch`. As an example for linux amd64 would be something like
+
+```sh
+make arch=linux_amd64 install-provider
+```
