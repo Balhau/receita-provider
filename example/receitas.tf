@@ -10,13 +10,18 @@ provider "receita" {
   endpoint = "http://localhost:9999"
 }
 
-resource "receita_receita" "receita_one" {
+resource "receita_receita" "bola_carne" {
   name = "Bola de carne"
   #name   = "Batata frita"
   author = "Maria Bacalhau"
 }
 
-resource "receita_receita" "receita_two" {
-  name   = "Bacalhau com Todos"
+resource "receita_receita" "bacalhau_todos" {
+  name   = "Bacalhau com todos"
   author = "Antonio Mariscada"
+}
+
+resource "receita_receita" "pato_bravo" {
+  name   = "Pato bravo"
+  author = "Jose Pato"
 }
